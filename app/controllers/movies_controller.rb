@@ -16,7 +16,7 @@ class MoviesController < ApplicationController
     if movie.save
       render movie.as_json, status: :ok
     else
-      flash[:error] = "Unable to add movie to Collection"
+      flash[:error] = "Unable to add Movie to your Store."
     end
     # create new movie with title
     # Save it to DB.
