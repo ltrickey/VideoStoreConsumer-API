@@ -14,9 +14,9 @@ class MoviesController < ApplicationController
   def create
     movie = Movie.new(movie_params)
     if movie.save
-      render movie.as_json, status: :ok
+      render json: movie.as_json, status: :ok
     else
-      flash[:error] = "Unable to add Movie to your Store."
+      render json: {errors: {movie: ["Unable to add to #{params[:title]} your Movie Store!"]} }
     end
     # create new movie with title
     # Save it to DB.
