@@ -4,6 +4,8 @@ class MoviesController < ApplicationController
   def index
     if params[:query]
       data = MovieWrapper.search(params[:query])
+    elsif params[:find]
+      data = Movie.where("title LIKE ?", "%#{params[:find]}%")
     else
       data = Movie.all
     end
