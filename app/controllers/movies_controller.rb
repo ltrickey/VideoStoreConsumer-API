@@ -4,6 +4,8 @@ class MoviesController < ApplicationController
   def index
     if params[:query]
       data = MovieWrapper.search(params[:query])
+    elsif params[:find]
+      data = Movie.where("title LIKE ?", "%#{params[:find]}%")
     else
       data = Movie.all
     end
@@ -12,11 +14,16 @@ class MoviesController < ApplicationController
   end
 
   def create
-    movie = Movie.new(movie_params)
-    if movie.save
-      render json: movie.as_json, status: :ok
+    existing_movie = Movie.find_by(overview: movie_params[:overview])
+    if existing_movie
+      render json: {errors: {movie: ["Video Store already has #{params[:title]}!"]} }
     else
-      render json: {errors: {movie: ["Unable to add to #{params[:title]} your Movie Store!"]} }
+      movie = Movie.new(movie_params)
+      if movie.save
+        render json: movie.as_json, status: :ok
+      else
+        render json: {errors: {movie: ["Unable to add to #{params[:title]} your Movie Store!"]} }
+      end
     end
     # create new movie with title
     # Save it to DB.
