@@ -6,7 +6,11 @@ class Customer < ApplicationRecord
     self.rentals.where(returned: false).length
   end
 
+  # def current_movies
+  #   return self.movies
+  # end
+
   def current_rentals
-    return self.movies
+    return self.rentals, self.movies
   end
 end
