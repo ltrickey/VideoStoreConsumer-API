@@ -18,7 +18,22 @@ class CustomersController < ApplicationController
     )
   end
 
+  def create
+    customer = Customer.new(customer_params)
+    if customer.save
+      render json: customer.as_json, status: :ok
+    else
+      render json: {errors: {customer: ["Unable to add #{params[:name]} to custokmer database"]} }
+    end
+
+  end
+
 private
+
+def customer_params
+  params.require(:customer).permit(:name, :phone, :postal_code)
+end
+
   def parse_query_args
     errors = {}
     @sort = params[:sort]
