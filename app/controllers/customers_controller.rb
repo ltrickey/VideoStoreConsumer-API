@@ -28,6 +28,10 @@ class CustomersController < ApplicationController
 
   end
 
+def destroy
+  Customer.find(params[:id]).destroy
+end
+
 private
 
 def customer_params
